@@ -6,6 +6,7 @@ const {Todo} = require('./../models/todo');
 
 const todos = [
     {
+        id: "5a1f7db082ab43ac2df632cd",
         text: "first test todo"
     },
     {
@@ -67,7 +68,17 @@ describe('GET /todos', () => {
             .get('/todos')
             .expect(200)
             .expect( (res) => {
-                expect(res.body.todos.length).toBe(2)
+                expect(res.body.todos.length).toBe(2);
+            })
+            .end(done);
+    });
+
+    it('should get a todo', (done) => {
+        request(app)
+            .get('/todos/5a1f7db082ab43ac2df632cd')
+            .expect(200)
+            .expect( (res) => {
+                expect(res.body.todos.length).toBe(1);
             })
             .end(done);
     });
