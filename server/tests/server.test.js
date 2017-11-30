@@ -72,14 +72,4 @@ describe('GET /todos', () => {
             })
             .end(done);
     });
-
-    it('should get a todo', (done) => {
-        request(app)
-            .get('/todos/5a1f7db082ab43ac2df632cd')
-            .expect(200)
-            .expect( (res) => {
-                expect(res.body.todos.length).toBe(1);
-            })
-            .end(done);
-    });
 })
