@@ -230,3 +230,47 @@ describe('POST /users', () => {
             .end(done);
     });
 });
+
+describe('POST /users/login', () => {
+
+    it('should return token once valid user is logged in', (done) => {
+        var {email, password} = users[0];
+
+        request(app)
+            .post('/users/login')
+            .send({email, password})
+            .expect(200)
+            .expect( (res) => {
+                expect(res.headers['x-auth']).toExist();
+            })
+            .end(done);
+    });
+
+    it('should not return token if email does not exist', (done) => {
+        var email = "idonotexist@void.null";
+        var password = 'sadfsdagf2934tDFG#@#$';
+
+        request(app)
+            .post('/users/login')
+            .send({email, password})
+            .expect(535)
+            .expect( (res) => {
+                expect(res.headers['x-auth']).toNotExist();
+            })
+            .end(done);
+    });
+
+    it('should not return token if invalid password is given', (done) => {
+        var {email} = users[0];
+        var password = '2345sdfgsdfh4e5y35';
+        
+        request(app)
+            .post('/users/login')
+            .send({email, password})
+            .expect(535)
+            .expect( (res) => {
+                expect(res.headers['x-auth']).toNotExist();
+            })
+            .end(done);
+    });
+});
